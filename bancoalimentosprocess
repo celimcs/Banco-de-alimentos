@@ -1,12 +1,12 @@
 from tkinter import Tk, Toplevel, Label, Entry, Button, messagebox, LEFT
 
-# Listas para armazenar os dados
+# Listas para armazenar os dados.
 doadores = []
 instituicoes = []
 entradas_estoque = []
 saidas_estoque = []
 
-# Função para cadastrar um doador
+# Função para cadastrar um doador.
 def cadastrar_doador():
     janela_cadastro = Toplevel(janela)
     janela_cadastro.title("Cadastrar Doador")
