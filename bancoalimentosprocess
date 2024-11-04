@@ -197,7 +197,7 @@ janela = Tk()
 janela.title("Banco de Alimentos")
 janela.geometry("400x400")
 
-# Botões principais
+# Botões principais.
 Button(janela, text="Cadastrar Doador", command=cadastrar_doador).pack(pady=10)
 Button(janela, text="Cadastrar Instituição", command=cadastrar_instituicao).pack(pady=10)
 Button(janela, text="Registrar Entrada", command=registrar_entrada).pack(pady=10)
