@@ -1,0 +1,210 @@
+from tkinter import Tk, Toplevel, Label, Entry, Button, messagebox, LEFT
+
+# Listas para armazenar os dados
+doadores = []
+instituicoes = []
+entradas_estoque = []
+saidas_estoque = []
+
+# Função para cadastrar um doador
+def cadastrar_doador():
+    janela_cadastro = Toplevel(janela)
+    janela_cadastro.title("Cadastrar Doador")
+    janela_cadastro.geometry("300x250")
+
+    Label(janela_cadastro, text="Nome do Doador:").pack(pady=5)
+    nome_entry = Entry(janela_cadastro, width=30)
+    nome_entry.pack(pady=5)
+
+    Label(janela_cadastro, text="Contato do Doador:").pack(pady=5)
+    contato_entry = Entry(janela_cadastro, width=30)
+    contato_entry.pack(pady=5)
+
+    Label(janela_cadastro, text="Endereço do Doador:").pack(pady=5)
+    endereco_entry = Entry(janela_cadastro, width=30)
+    endereco_entry.pack(pady=5)
+
+    def salvar_doador():
+        nome = nome_entry.get()
+        contato = contato_entry.get()
+        endereco = endereco_entry.get()
+        if nome and contato and endereco:
+            doadores.append({"Nome": nome, "Contato": contato, "Endereço": endereco})
+            messagebox.showinfo("Cadastro", "Doador cadastrado com sucesso!")
+            janela_cadastro.destroy()
+        else:
+            messagebox.showwarning("Erro", "Preencha todos os campos.")
+
+    Button(janela_cadastro, text="Salvar", command=salvar_doador).pack(pady=20)
+
+# Função para cadastrar uma instituição beneficiária
+def cadastrar_instituicao():
+    janela_instituicao = Toplevel(janela)
+    janela_instituicao.title("Cadastrar Instituição")
+    janela_instituicao.geometry("300x250")
+
+    Label(janela_instituicao, text="Nome da Instituição:").pack(pady=5)
+    nome_entry = Entry(janela_instituicao, width=30)
+    nome_entry.pack(pady=5)
+
+    Label(janela_instituicao, text="Contato da Instituição:").pack(pady=5)
+    contato_entry = Entry(janela_instituicao, width=30)
+    contato_entry.pack(pady=5)
+
+    Label(janela_instituicao, text="Endereço da Instituição:").pack(pady=5)
+    endereco_entry = Entry(janela_instituicao, width=30)
+    endereco_entry.pack(pady=5)
+
+    def salvar_instituicao():
+        nome = nome_entry.get()
+        contato = contato_entry.get()
+        endereco = endereco_entry.get()
+        if nome and contato and endereco:
+            instituicoes.append({"Nome": nome, "Contato": contato, "Endereço": endereco})
+            messagebox.showinfo("Cadastro", "Instituição cadastrada com sucesso!")
+            janela_instituicao.destroy()
+        else:
+            messagebox.showwarning("Erro", "Preencha todos os campos.")
+
+    Button(janela_instituicao, text="Salvar", command=salvar_instituicao).pack(pady=20)
+
+# Função para registrar a entrada de uma doação no estoque
+def registrar_entrada():
+    janela_entrada = Toplevel(janela)
+    janela_entrada.title("Registrar Entrada de Doação")
+    janela_entrada.geometry("300x350")
+
+    Label(janela_entrada, text="Nome do Item:").pack(pady=5)
+    item_entry = Entry(janela_entrada, width=30)
+    item_entry.pack(pady=5)
+
+    Label(janela_entrada, text="Quantidade:").pack(pady=5)
+    quantidade_entry = Entry(janela_entrada, width=30)
+    quantidade_entry.pack(pady=5)
+
+    Label(janela_entrada, text="Peso Bruto (kg):").pack(pady=5)
+    peso_bruto_entry = Entry(janela_entrada, width=30)
+    peso_bruto_entry.pack(pady=5)
+
+    Label(janela_entrada, text="Peso Líquido (kg):").pack(pady=5)
+    peso_liquido_entry = Entry(janela_entrada, width=30)
+    peso_liquido_entry.pack(pady=5)
+
+    def salvar_entrada():
+        item = item_entry.get()
+        quantidade = quantidade_entry.get()
+        peso_bruto = peso_bruto_entry.get()
+        peso_liquido = peso_liquido_entry.get()
+
+        # Verifica se os campos estão preenchidos corretamente
+        if item and quantidade.isdigit() and peso_bruto.replace('.', '', 1).isdigit() and peso_liquido.replace('.', '', 1).isdigit():
+            entrada = {
+                "Item": item,
+                "Quantidade": int(quantidade),
+                "Peso Bruto (kg)": float(peso_bruto),
+                "Peso Líquido (kg)": float(peso_liquido)
+            }
+            entradas_estoque.append(entrada)
+            messagebox.showinfo("Cadastro", "Entrada registrada com sucesso!")
+            janela_entrada.destroy()
+        else:
+            messagebox.showwarning("Erro", "Preencha todos os campos corretamente com valores numéricos.")
+
+    Button(janela_entrada, text="Salvar", command=salvar_entrada).pack(pady=20)
+
+# Função para registrar a saída de um item do estoque
+def registrar_saida():
+    janela_saida = Toplevel(janela)
+    janela_saida.title("Registrar Saída de Estoque")
+    janela_saida.geometry("300x200")
+
+    Label(janela_saida, text="Nome do Item:").pack(pady=5)
+    item_entry = Entry(janela_saida, width=30)
+    item_entry.pack(pady=5)
+
+    Label(janela_saida, text="Quantidade:").pack(pady=5)
+    quantidade_entry = Entry(janela_saida, width=30)
+    quantidade_entry.pack(pady=5)
+
+    def salvar_saida():
+        item = item_entry.get()
+        quantidade = quantidade_entry.get()
+        if item and quantidade.isdigit():
+            saidas_estoque.append({"Item": item, "Quantidade": int(quantidade)})
+            messagebox.showinfo("Cadastro", "Saída registrada com sucesso!")
+            janela_saida.destroy()
+        else:
+            messagebox.showwarning("Erro", "Preencha todos os campos corretamente.")
+
+    Button(janela_saida, text="Salvar", command=salvar_saida).pack(pady=20)
+
+# Função para mostrar o estoque
+def mostrar_estoque():
+    estoque = Toplevel(janela)
+    estoque.title("Estoque")
+    estoque.geometry("400x400")
+
+    estoque_texto = "Entradas de Estoque:\n"
+    for item in entradas_estoque:
+        if all(key in item for key in ["Item", "Quantidade", "Peso Bruto (kg)", "Peso Líquido (kg)"]):
+            estoque_texto += (
+                f"{item['Item']}: Quantidade = {item['Quantidade']}, "
+                f"Peso Bruto = {item['Peso Bruto (kg)']} kg, "
+                f"Peso Líquido = {item['Peso Líquido (kg)']} kg\n"
+            )
+        else:
+            estoque_texto += f"{item.get('Item', 'Item desconhecido')}: Dados incompletos\n"
+
+    if saidas_estoque:
+        estoque_texto += "\nSaídas de Estoque:\n"
+        for item in saidas_estoque:
+            estoque_texto += f"{item['Item']}: Quantidade = {item['Quantidade']}\n"
+
+    Label(estoque, text=estoque_texto, justify=LEFT).pack(pady=10)
+
+# Função para mostrar todos os doadores
+def mostrar_doador():
+    janela_doador = Toplevel(janela)
+    janela_doador.title("Lista de Doadores")
+    janela_doador.geometry("400x300")
+
+    if not doadores:
+        Label(janela_doador, text="Nenhum doador cadastrado.").pack(pady=10)
+    else:
+        doador_texto = "\n".join(
+            f"Nome: {doador['Nome']}, Contato: {doador['Contato']}, Endereço: {doador['Endereço']}"
+            for doador in doadores
+        )
+        Label(janela_doador, text=f"Total de Doadores: {len(doadores)}\n\n{doador_texto}", justify=LEFT).pack(pady=10)
+
+# Função para mostrar todas as instituições
+def mostrar_instituicoes():
+    janela_instituicao = Toplevel(janela)
+    janela_instituicao.title("Lista de Instituições")
+    janela_instituicao.geometry("400x300")
+
+    if not instituicoes:
+        Label(janela_instituicao, text="Nenhuma instituição cadastrada.").pack(pady=10)
+    else:
+        instituicao_texto = "\n".join(
+            f"Nome: {instituicao['Nome']}, Contato: {instituicao['Contato']}, Endereço: {instituicao['Endereço']}"
+            for instituicao in instituicoes
+        )
+        Label(janela_instituicao, text=f"Total de Instituições: {len(instituicoes)}\n\n{instituicao_texto}", justify=LEFT).pack(pady=10)
+
+# Configuração da janela principal
+janela = Tk()
+janela.title("Banco de Alimentos")
+janela.geometry("400x400")
+
+# Botões principais
+Button(janela, text="Cadastrar Doador", command=cadastrar_doador).pack(pady=10)
+Button(janela, text="Cadastrar Instituição", command=cadastrar_instituicao).pack(pady=10)
+Button(janela, text="Registrar Entrada", command=registrar_entrada).pack(pady=10)
+Button(janela, text="Registrar Saída", command=registrar_saida).pack(pady=10)
+Button(janela, text="Mostrar Estoque", command=mostrar_estoque).pack(pady=10)
+Button(janela, text="Mostrar Doadores", command=mostrar_doador).pack(pady=10)
+Button(janela, text="Mostrar Instituições", command=mostrar_instituicoes).pack(pady=10)
+#final
+janela.mainloop()
+
